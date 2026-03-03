@@ -97,13 +97,43 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (Populated during roadmap creation) | | |
+| SND-01 | Phase 1 | Pending |
+| SND-02 | Phase 1 | Pending |
+| SND-03 | Phase 1 | Pending |
+| SND-04 | Phase 1 | Pending |
+| SND-05 | Phase 1 | Pending |
+| SND-06 | Phase 2 | Pending |
+| SND-07 | Phase 1 | Pending |
+| AUD-01 | Phase 1 | Pending |
+| AUD-02 | Phase 1 | Pending |
+| AUD-03 | Phase 1 | Pending |
+| AUD-04 | Phase 1 | Pending |
+| AUD-05 | Phase 1 | Pending |
+| AUD-06 | Phase 1 | Pending |
+| WA-01 | Phase 3 | Pending |
+| WA-02 | Phase 3 | Pending |
+| WA-03 | Phase 3 | Pending |
+| WA-04 | Phase 3 | Pending |
+| WA-05 | Phase 3 | Pending |
+| AUTH-01 | Phase 2 | Pending |
+| AUTH-02 | Phase 2 | Pending |
+| AUTH-03 | Phase 2 | Pending |
+| AUTH-04 | Phase 2 | Pending |
+| PROF-01 | Phase 2 | Pending |
+| PROF-02 | Phase 2 | Pending |
+| PROF-03 | Phase 2 | Pending |
+| SOC-01 | Phase 4 | Pending |
+| SOC-02 | Phase 4 | Pending |
+| SOC-03 | Phase 4 | Pending |
+| SOC-04 | Phase 4 | Pending |
+| SOC-05 | Phase 4 | Pending |
+| SOC-06 | Phase 4 | Pending |
 
 **Coverage:**
-- v1 requirements: 26 total
-- Mapped to phases: 0
-- Unmapped: 26
+- v1 requirements: 31 total
+- Mapped to phases: 31
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-04*
-*Last updated: 2026-03-04 after initial definition*
+*Last updated: 2026-03-04 after roadmap creation*
