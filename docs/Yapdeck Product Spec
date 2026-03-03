@@ -1,0 +1,80 @@
+# YapDeck - Product Research & Conception Spec
+
+This document is designed to provide comprehensive context, market research, and a unique product spin for **YapDeck**. It is structured to be used directly as a blueprint for prompt-driven development tools (like Claude).
+
+---
+
+## 1. Market Research: The Soundboard Landscape
+
+When analyzing the most popular soundboard and voice-memo apps across Android and iOS (such as Voicemod, Custom Soundboard, Instant Buttons, Soundboard Studio, and WASound), several patterns emerge regarding what users highly value.
+
+### Most Liked Features in Competitor Apps:
+- **Utmost Customization:** Users want to edit button colors, shapes, typography, and specifically add thumbnail images to the sound buttons.
+- **Ease of Import/Creation:** Seamlessly importing MP3/WAV files, recording directly within the app, and extracting audio from URLs or videos.
+- **Playback Control & Layering:** Features like pausing, looping, adjusting volume per sound, and playing multiple sounds simultaneously (though less relevant for direct WhatsApp sharing, highly requested for live soundboards).
+- **Organization & Search:** Creating unlimited soundboards (folders/lists), tagging sounds for easy searching, and having a "Favorites" section.
+- **Social & Cloud Features:** Backing up soundboards to the cloud and sharing entire custom lists with friends via links.
+- **Massive Pre-built Libraries:** Access to trending, community-uploaded meme sounds right out of the box (like Instant Buttons).
+
+---
+
+## 2. YapDeck's Unique Spin (The USPs)
+
+While most soundboard apps are designed to "play sounds out loud on the phone speaker" for real-life comic timing, **YapDeck** is inherently designed as an asynchronous, rich-media messaging companion. 
+
+To stand out in this market, YapDeck should lean heavily into these unique angles:
+
+### 1. "Rich Media Bundles" (Audio + Visual 1-Click Send)
+**The Spin:** No other app sends an audio alongside a sticker/image natively with one click. YapDeck shouldn't just be an "Audio Manager"—it should be a "Reaction Creator". By pairing a hilarious audio clip with a perfectly matched WhatsApp sticker or image, the user creates a multi-sensory meme that elevates the chat experience. 
+*Branding idea: Call these combinations "Combos" or "Sound-Cards".*
+
+### 2. "The TikTok of WhatsApp Audios" (Social Discovery)
+**The Spin:** While other apps let you share a file, YapDeck has "Public Lists" and "Trending Audios." This turns YapDeck into a social platform. Users shouldn't just use it for utility; they should scroll YapDeck to discover new hilarious audios to save to their personal boards. Introduce a "Creator" angle where users with the most popular public lists gain standing.
+
+### 3. "Collaborative Group Boards"
+**The Spin:** WhatsApp is centered around Group Chats. YapDeck should allow a soundboard list to be "Collaborative." A friend group can have a shared YapDeck list where anyone with the link can add new inside-joke voice notes. When one person adds a funny voice note from their night out, it instantly appears on everyone's shared YapDeck board.
+
+### 4. Seamless WhatsApp Extraction
+**The Spin:** With Android "Share Targets", WhatsApp voice notes are notoriously annoying to export. YapDeck must intercept the "Share" action directly from inside WhatsApp, parsing Opus/M4A files, immediately prompting for a quick Title + Emoji, and seamlessly adding it to the board without breaking the user's flow.
+
+---
+
+## 3. Product Specification (For Claude / Prompt-Driven Dev)
+
+*Copy and paste the section below to your AI code generator tool to kickstart the project.*
+
+### App Overview
+**Name:** YapDeck
+**Stack Context:** React Native (Expo) / Typescript. (Include backend context like Firebase/Supabase if applicable).
+**Goal:** A mobile soundboard and social app specifically built to streamline saving, organizing, and sending audios (optionally combined with images/stickers) directly to WhatsApp.
+
+### Core Data Models (Entities)
+1. **User:** `id`, `username`, `avatar_url`, `created_at`
+2. **AudioItem:** `id`, `title`, `audio_url` (or local file path), `thumbnail_url` (optional), `sticker_id` (optional), `creator_id`, `created_at`, `play_count` / `share_count`
+3. **SoundboardList:** `id`, `title`, `creator_id`, `is_public` (boolean), `is_collaborative` (boolean), `theme_color`
+4. **ListAudios (Join Table):** `list_id`, `audio_id`, `position_index`
+
+### Core User Flows to Implement
+1. **The In-App Soundboard (Main Screen):**
+   - Grid layout of `AudioItem` buttons.
+   - Buttons should display the thumbnail (if exists) or a stylized title.
+   - **Tap:** Plays the audio locally.
+   - **Long Press / Share Button:** Opens a bottom sheet menu giving options to: "Send to WhatsApp", "Edit", "Remove".
+   - **Combo Send:** When clicking "Send to WhatsApp", if the `AudioItem` has a linked sticker/image, it batches the sharing intent to WhatsApp to attach both.
+
+2. **Creation & Ingestion Flow:**
+   - **Adding via App:** '+' button to pick a file from device storage, upload a thumbnail, specify a name, and attach an optional sticker image.
+   - **Share Intent Receiver:** The app must register as a Share Target. When a user shares a `.opus` or `.m4a` file from WhatsApp to YapDeck, unmount the main UI and pop up a modal: "Save new audio", asking for Name and selecting a List to append it to.
+
+3. **Explore / Social Flow:**
+   - **Explore Tab:** A curated feed of "Trending Audios" (ranked by `share_count`), and "Popular Public Lists".
+   - Users can tap a public list, preview its audios, and click "Clone List to My Account" or "Follow List" to have it appear in their library.
+
+### Technical & UX Requirements
+- **Haptic Feedback:** Essential for a soundboard. Every button tap must trigger a light haptic response (`expo-haptics`).
+- **File Management:** Robust handling of local caching. Audios originating from the system should be copied to the app's `expo-file-system` document directory so they aren't lost if the user deletes the original.
+- **Audio Playback:** Use `expo-av`. Ensure multiple instant taps stop the previous sound and restart, or overlap (depending on settings).
+- **WhatsApp Integration:** Use `expo-sharing` or `react-native-share` with specific package targeting `com.whatsapp` to streamline the user experience bypassing the generic OS share menu where possible.
+
+### First Milestone Task For Claude:
+"Please generate the foundational React Native folder structure and the primary UI for the 'Main Soundboard Screen' (a dynamic, customizable grid of audio buttons). Include a mock data structure for `AudioItems` and implement the `expo-av` logic so pressing a button plays a local mock sound accompanied by `expo-haptics`."

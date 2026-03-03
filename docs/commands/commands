@@ -1,0 +1,4 @@
+### Start commands
+npx expo start --dev-client --port 8082 --clear
+
+
