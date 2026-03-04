@@ -9,9 +9,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Soundboard
 
-- [ ] **SND-01**: User can view audio items in a grid layout with thumbnail or stylized title
-- [ ] **SND-02**: User can tap a button to play audio with haptic feedback
-- [ ] **SND-03**: Tapping a new button stops the currently playing sound and plays the new one
+- [x] **SND-01**: User can view audio items in a grid layout with thumbnail or stylized title
+- [x] **SND-02**: User can tap a button to play audio with haptic feedback
+- [x] **SND-03**: Tapping a new button stops the currently playing sound and plays the new one
 - [x] **SND-04**: User can create multiple soundboard lists/boards
 - [x] **SND-05**: User can set a theme color per list
 - [ ] **SND-06**: User can mark audio items as favorites for quick access
@@ -22,7 +22,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **AUD-01**: User can import audio files from device storage (.opus, .m4a)
 - [ ] **AUD-02**: User can set a name and upload a thumbnail for each audio
 - [ ] **AUD-03**: User can attach an optional sticker/image to an audio item
-- [ ] **AUD-04**: Imported audio is cached locally for offline playback
+- [x] **AUD-04**: Imported audio is cached locally for offline playback
 - [ ] **AUD-05**: User can edit audio item details (name, thumbnail, sticker)
 - [ ] **AUD-06**: User can delete audio items from their library
 
@@ -97,9 +97,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SND-01 | Phase 1 | Pending |
-| SND-02 | Phase 1 | Pending |
-| SND-03 | Phase 1 | Pending |
+| SND-01 | Phase 1 | Complete |
+| SND-02 | Phase 1 | Complete |
+| SND-03 | Phase 1 | Complete |
 | SND-04 | Phase 1 | Complete |
 | SND-05 | Phase 1 | Complete |
 | SND-06 | Phase 2 | Pending |
@@ -107,7 +107,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUD-01 | Phase 1 | Pending |
 | AUD-02 | Phase 1 | Pending |
 | AUD-03 | Phase 1 | Pending |
-| AUD-04 | Phase 1 | Pending |
+| AUD-04 | Phase 1 | Complete |
 | AUD-05 | Phase 1 | Pending |
 | AUD-06 | Phase 1 | Pending |
 | WA-01 | Phase 3 | Pending |

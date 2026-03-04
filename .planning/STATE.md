@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 01-foundation-and-soundboard-01-PLAN.md
-last_updated: "2026-03-04T10:45:32.303Z"
+stopped_at: Completed 01-foundation-and-soundboard-02-PLAN.md
+last_updated: "2026-03-04T10:54:16.447Z"
 last_activity: 2026-03-04 — Roadmap created
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 3
-  completed_plans: 1
+  completed_plans: 2
   percent: 0
 ---
 
@@ -51,6 +51,7 @@ Progress: [░░░░░░░░░░] 0%
 
 *Updated after each plan completion*
 | Phase 01-foundation-and-soundboard P01 | 6 | 2 tasks | 12 files |
+| Phase 01-foundation-and-soundboard P02 | 6 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -66,6 +67,8 @@ Recent decisions affecting current work:
 - [Pre-phase]: Sticker + audio combo share designed as two sequential WhatsApp messages (not single multi-type intent)
 - [Phase 01-foundation-and-soundboard]: jest.mock() factory pattern: define all mocks inside factory to avoid hoisting temporal dead zone issues
 - [Phase 01-foundation-and-soundboard]: AsyncStorage requires official jest mock in test environment (native module unavailable in Node/Jest)
+- [Phase 01-foundation-and-soundboard]: SoundGrid handles onPress/stopSound logic directly (not HomeScreen) — cleaner for SoundGrid to own playback logic since it reads store directly
+- [Phase 01-foundation-and-soundboard]: AudioPlayer playback completion uses addListener('playbackStatusUpdate') checking status.didJustFinish to clear activeSoundId
 
 ### Pending Todos
 
@@ -79,6 +82,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-04T10:45:32.301Z
-Stopped at: Completed 01-foundation-and-soundboard-01-PLAN.md
+Last session: 2026-03-04T10:54:08.850Z
+Stopped at: Completed 01-foundation-and-soundboard-02-PLAN.md
 Resume file: None
