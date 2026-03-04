@@ -12,8 +12,8 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **SND-01**: User can view audio items in a grid layout with thumbnail or stylized title
 - [ ] **SND-02**: User can tap a button to play audio with haptic feedback
 - [ ] **SND-03**: Tapping a new button stops the currently playing sound and plays the new one
-- [ ] **SND-04**: User can create multiple soundboard lists/boards
-- [ ] **SND-05**: User can set a theme color per list
+- [x] **SND-04**: User can create multiple soundboard lists/boards
+- [x] **SND-05**: User can set a theme color per list
 - [ ] **SND-06**: User can mark audio items as favorites for quick access
 - [ ] **SND-07**: User can reorder audio items within a list
 
@@ -100,8 +100,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SND-01 | Phase 1 | Pending |
 | SND-02 | Phase 1 | Pending |
 | SND-03 | Phase 1 | Pending |
-| SND-04 | Phase 1 | Pending |
-| SND-05 | Phase 1 | Pending |
+| SND-04 | Phase 1 | Complete |
+| SND-05 | Phase 1 | Complete |
 | SND-06 | Phase 2 | Pending |
 | SND-07 | Phase 1 | Pending |
 | AUD-01 | Phase 1 | Pending |
