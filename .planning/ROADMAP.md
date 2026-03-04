@@ -29,12 +29,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Audio plays offline after the first import (cached to documentDirectory, not dependent on network)
   4. User can create multiple named lists, assign a theme color to each, and reorder audio items within a list
   5. User can edit or delete any audio item (name, thumbnail, sticker) from their library
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 01-01: Supabase schema, expo-audio migration, custom dev client setup, Zustand + TanStack Query scaffolding
-- [ ] 01-02: AudioPlayer singleton, FileCacheService, soundboard grid UI with haptics and stop-and-restart behavior
-- [ ] 01-03: Audio import flow (pick file, name, thumbnail, sticker), local CRUD for lists and audio items
+- [ ] 01-01-PLAN.md — TypeScript types, Zustand store, service scaffolds, Jest test infrastructure, dependency install
+- [ ] 01-02-PLAN.md — SoundButton, SoundGrid, ListTabBar, HomeScreen with audio playback, haptics, and stop-and-restart
+- [ ] 01-03-PLAN.md — Audio import flow, edit/delete modals, list creation, drag-and-drop reordering
 
 ### Phase 2: Auth and Data Layer
 **Goal**: Users can sign in, own their soundboard data in the cloud, and access it from any device — with a profile that identifies them
@@ -84,7 +84,7 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
