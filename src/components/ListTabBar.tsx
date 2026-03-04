@@ -3,7 +3,11 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-nati
 import { useShallow } from 'zustand/react/shallow';
 import { useSoundboardStore } from '../store/soundboardStore';
 
-export default function ListTabBar() {
+interface Props {
+  onCreateList: () => void;
+}
+
+export default function ListTabBar({ onCreateList }: Props) {
   const { lists, activeListId, setActiveListId } = useSoundboardStore(
     useShallow((s) => ({
       lists: s.lists,
@@ -13,11 +17,6 @@ export default function ListTabBar() {
   );
 
   const sortedLists = [...lists].sort((a, b) => a.order - b.order);
-
-  const handleAddList = () => {
-    // Placeholder: will be wired to list creation modal in Plan 03
-    console.log('[ListTabBar] Add new list tapped');
-  };
 
   return (
     <View style={styles.wrapper}>
@@ -77,7 +76,7 @@ export default function ListTabBar() {
         {/* Add list button */}
         <TouchableOpacity
           style={[styles.tab, styles.addTab]}
-          onPress={handleAddList}
+          onPress={onCreateList}
           activeOpacity={0.7}
         >
           <Text style={styles.addTabText}>+</Text>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 import { useShallow } from 'zustand/react/shallow';
 import AddSoundFab from '../components/AddSoundFab';
+import AddSoundModal from '../components/AddSoundModal';
+import CreateListModal from '../components/CreateListModal';
 import ListTabBar from '../components/ListTabBar';
 import SoundGrid from '../components/SoundGrid';
 import { useSoundboardStore } from '../store/soundboardStore';
@@ -20,10 +22,8 @@ export default function HomeScreen() {
     }))
   );
 
-  const handleAddSound = () => {
-    // Placeholder: will be wired to AddSoundModal in Plan 03
-    console.log('[HomeScreen] Add sound tapped');
-  };
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showCreateListModal, setShowCreateListModal] = useState(false);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -42,13 +42,23 @@ export default function HomeScreen() {
       </View>
 
       {/* Tab bar */}
-      <ListTabBar />
+      <ListTabBar onCreateList={() => setShowCreateListModal(true)} />
 
       {/* Sound grid */}
       <SoundGrid />
 
       {/* FAB: hidden in edit mode */}
-      {!isEditMode && <AddSoundFab onPress={handleAddSound} />}
+      {!isEditMode && <AddSoundFab onPress={() => setShowAddModal(true)} />}
+
+      {/* Modals */}
+      <AddSoundModal
+        visible={showAddModal}
+        onClose={() => setShowAddModal(false)}
+      />
+      <CreateListModal
+        visible={showCreateListModal}
+        onClose={() => setShowCreateListModal(false)}
+      />
     </SafeAreaView>
   );
 }
