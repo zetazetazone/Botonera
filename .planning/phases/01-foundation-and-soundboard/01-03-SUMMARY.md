@@ -56,9 +56,9 @@ decisions:
 metrics:
   duration_minutes: 6
   completed_date: "2026-03-04"
-  tasks_completed: 2
+  tasks_completed: 3
   tasks_total: 3
-  tasks_pending_checkpoint: 1
+  tasks_pending_checkpoint: 0
   files_created: 4
   files_modified: 3
   files_deleted: 4
@@ -77,7 +77,7 @@ requirements_satisfied:
 
 **One-liner:** Complete audio import flow with DocumentPicker + creation form, EditSoundModal with thumbnail/sticker/list-move, CreateListModal, and row-grouped DraggableFlatList reordering — codebase now fully TypeScript
 
-**Status: PARTIAL — Tasks 1-2 complete, Task 3 awaiting human verification checkpoint**
+**Status: COMPLETE — All tasks done, human verification approved (with share intent fix)**
 
 ## What Was Built
 
@@ -128,7 +128,7 @@ This approach means sounds within the same row cannot be swapped via drag (only 
 |------|--------|-------------|
 | Task 1 | 5f402e6 | feat(01-03): build AddSoundModal, CreateListModal, wire ListTabBar and HomeScreen |
 | Task 2 | b715c9c | feat(01-03): build EditSoundModal, drag-and-drop reordering, convert AddSoundFab to TypeScript, delete legacy JS files |
-| Task 3 | — | Pending human verification |
+| Task 3 | e77af36 | fix(01-03): restore share intent handling + human verification approved |
 
 ## Test Results
 
@@ -149,7 +149,7 @@ This approach means sounds within the same row cannot be swapped via drag (only 
 
 - **DraggableFlatList numColumns limitation confirmed:** As predicted in RESEARCH.md Pitfall 4, DraggableFlatList does not support `numColumns`. Used row-grouping fallback (Fallback Option A from plan).
 
-## Self-Check: PARTIAL (awaiting checkpoint)
+## Self-Check: PASSED
 
 Files created/modified:
 - FOUND: src/components/AddSoundModal.tsx
@@ -163,4 +163,6 @@ Files created/modified:
 
 Commits verified: 5f402e6, b715c9c
 
-Task 3 human verification checkpoint pending.
+Task 3 human verification approved. Share intent handling was restored (had been lost during legacy file cleanup). Fix committed as e77af36.
+
+**Issue found during verification:** Share-to-YapDeck flow (receiving audio shared from other apps) was broken when HomeScreen.js was replaced. The `useShareIntentContext` useEffect was not carried over to the new HomeScreen.tsx. Fixed by re-adding the share intent handler, adapted to use Zustand store (`addSound`) and FileCacheService (`cacheAudioFile`) instead of the old `useSoundboard` context.
