@@ -12,7 +12,7 @@ YapDeck ships in four coarse phases. Phase 1 builds the local-first soundboard �
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation and Soundboard** - Local-first soundboard with audio management, playback, and file caching — no network required
+- [x] **Phase 1: Foundation and Soundboard** - Local-first soundboard with audio management, playback, and file caching — no network required (completed 2026-03-04)
 - [ ] **Phase 2: Auth and Data Layer** - User authentication, profiles, and Supabase cloud persistence for lists and audio items
 - [ ] **Phase 3: WhatsApp Integration** - Outbound audio sharing to WhatsApp and inbound Share Intent Receiver for capturing audio from WhatsApp
 - [ ] **Phase 4: Social and Explore** - Explore tab, public list discovery, clone, follow, and list visibility controls
@@ -88,7 +88,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation and Soundboard | 2/3 | In Progress|  |
+| 1. Foundation and Soundboard | 3/3 | Complete   | 2026-03-04 |
 | 2. Auth and Data Layer | 0/2 | Not started | - |
 | 3. WhatsApp Integration | 0/2 | Not started | - |
 | 4. Social and Explore | 0/1 | Not started | - |
