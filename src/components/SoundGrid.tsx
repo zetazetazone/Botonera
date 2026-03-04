@@ -1,3 +1,7 @@
+import DraggableFlatList, {
+  RenderItemParams,
+  ScaleDecorator,
+} from 'react-native-draggable-flatlist';
 import React, { useEffect } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { useShallow } from 'zustand/react/shallow';
@@ -6,17 +10,28 @@ import { useSoundboardStore } from '../store/soundboardStore';
 import { AudioItem } from '../store/types';
 import SoundButton from './SoundButton';
 
-export default function SoundGrid() {
-  const { sounds, activeSoundId, activeListId, isEditMode, setActiveSoundId } =
-    useSoundboardStore(
-      useShallow((s) => ({
-        sounds: s.sounds,
-        activeSoundId: s.activeSoundId,
-        activeListId: s.activeListId,
-        isEditMode: s.isEditMode,
-        setActiveSoundId: s.setActiveSoundId,
-      }))
-    );
+interface Props {
+  onLongPressSound?: (sound: AudioItem) => void;
+}
+
+export default function SoundGrid({ onLongPressSound }: Props) {
+  const {
+    sounds,
+    activeSoundId,
+    activeListId,
+    isEditMode,
+    setActiveSoundId,
+    reorderSounds,
+  } = useSoundboardStore(
+    useShallow((s) => ({
+      sounds: s.sounds,
+      activeSoundId: s.activeSoundId,
+      activeListId: s.activeListId,
+      isEditMode: s.isEditMode,
+      setActiveSoundId: s.setActiveSoundId,
+      reorderSounds: s.reorderSounds,
+    }))
+  );
 
   // Listen for playback completion to clear activeSoundId
   useEffect(() => {
@@ -40,30 +55,19 @@ export default function SoundGrid() {
 
   const handlePress = async (sound: AudioItem) => {
     if (sound.id === activeSoundId) {
-      // Toggle: stop if already playing
       await stopSound();
       setActiveSoundId(null);
     } else {
-      // Stop current and play new
       await playSound(sound.uri);
       setActiveSoundId(sound.id);
     }
   };
 
   const handleLongPress = (sound: AudioItem) => {
-    // Placeholder: will be wired to edit modal in Plan 03
-    console.log('[SoundGrid] Long press on sound:', sound.id, sound.title);
+    if (onLongPressSound) {
+      onLongPressSound(sound);
+    }
   };
-
-  const renderItem = ({ item }: { item: AudioItem }) => (
-    <SoundButton
-      sound={item}
-      onPress={handlePress}
-      onLongPress={handleLongPress}
-      isPlaying={item.id === activeSoundId}
-      editMode={isEditMode}
-    />
-  );
 
   if (filteredSounds.length === 0) {
     return (
@@ -74,12 +78,103 @@ export default function SoundGrid() {
     );
   }
 
+  // ── EDIT MODE: DraggableFlatList with row grouping ──────────────────────────
+  // DraggableFlatList does not support numColumns, so we group into rows of 3
+  // and drag entire rows. Within-row reordering uses normal tap ordering.
+  if (isEditMode) {
+    // Only enable drag when viewing a specific list (not "All Sounds")
+    if (activeListId === null) {
+      return (
+        <View style={styles.noReorderContainer}>
+          <Text style={styles.noReorderText}>
+            Switch to a specific list to reorder sounds
+          </Text>
+          <FlatList
+            data={filteredSounds}
+            keyExtractor={(item) => item.id}
+            numColumns={3}
+            renderItem={({ item }) => (
+              <SoundButton
+                sound={item}
+                onPress={handlePress}
+                onLongPress={handleLongPress}
+                isPlaying={item.id === activeSoundId}
+                editMode={isEditMode}
+              />
+            )}
+            contentContainerStyle={styles.contentContainer}
+            style={styles.list}
+          />
+        </View>
+      );
+    }
+
+    // Group sounds into rows of 3 for DraggableFlatList
+    type Row = { id: string; items: AudioItem[] };
+    const rows: Row[] = [];
+    for (let i = 0; i < filteredSounds.length; i += 3) {
+      rows.push({
+        id: filteredSounds.slice(i, i + 3).map((s) => s.id).join('-'),
+        items: filteredSounds.slice(i, i + 3),
+      });
+    }
+
+    const renderRow = ({ item: row, drag, isActive }: RenderItemParams<Row>) => (
+      <ScaleDecorator>
+        <View
+          style={[styles.row, isActive && styles.rowActive]}
+          onTouchStart={drag}
+        >
+          {row.items.map((sound) => (
+            <SoundButton
+              key={sound.id}
+              sound={sound}
+              onPress={handlePress}
+              onLongPress={drag}
+              isPlaying={sound.id === activeSoundId}
+              editMode={isEditMode}
+            />
+          ))}
+          {/* Fill empty slots if row has fewer than 3 items */}
+          {row.items.length < 3 &&
+            Array.from({ length: 3 - row.items.length }).map((_, i) => (
+              <View key={`empty-${i}`} style={styles.emptySlot} />
+            ))}
+        </View>
+      </ScaleDecorator>
+    );
+
+    return (
+      <DraggableFlatList
+        data={rows}
+        keyExtractor={(row) => row.id}
+        onDragEnd={({ data: reorderedRows }) => {
+          // Flatten rows back into ordered IDs
+          const orderedIds = reorderedRows.flatMap((row) => row.items.map((s) => s.id));
+          reorderSounds(activeListId, orderedIds);
+        }}
+        renderItem={renderRow}
+        contentContainerStyle={styles.contentContainer}
+        style={styles.list}
+      />
+    );
+  }
+
+  // ── NORMAL MODE: FlatList ──────────────────────────────────────────────────
   return (
     <FlatList
       data={filteredSounds}
       keyExtractor={(item) => item.id}
       numColumns={3}
-      renderItem={renderItem}
+      renderItem={({ item }) => (
+        <SoundButton
+          sound={item}
+          onPress={handlePress}
+          onLongPress={handleLongPress}
+          isPlaying={item.id === activeSoundId}
+          editMode={false}
+        />
+      )}
       contentContainerStyle={styles.contentContainer}
       style={styles.list}
     />
@@ -93,7 +188,18 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     padding: 12,
-    paddingBottom: 100, // Space for FAB
+    paddingBottom: 100,
+  },
+  row: {
+    flexDirection: 'row',
+    marginBottom: 0,
+  },
+  rowActive: {
+    opacity: 0.85,
+  },
+  emptySlot: {
+    flex: 1,
+    margin: 4,
   },
   emptyContainer: {
     flex: 1,
@@ -113,5 +219,17 @@ const styles = StyleSheet.create({
     color: '#555',
     fontSize: 14,
     textAlign: 'center',
+  },
+  noReorderContainer: {
+    flex: 1,
+    backgroundColor: '#121212',
+  },
+  noReorderText: {
+    color: '#888',
+    fontSize: 13,
+    textAlign: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    backgroundColor: '#1F1F1F',
   },
 });
